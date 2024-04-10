@@ -15,4 +15,6 @@ connection.connect((error) => {
   }
 });
 
+//CREATE USER 'AdministratorDif'@'localhost' IDENTIFIED BY 'i4zaupBciycFX7gY';
+//sudo mariadb -u AdministratorDif -p
 module.exports = connection;

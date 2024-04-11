@@ -31,6 +31,13 @@ const path = require('path');
 
 //require functions
 
+
+//LOGIN 
+const { Autentication } = require('./ActionsDB/login');
+
+//users
+const { insertUser, updateUser, deleteUser, getAllUsers } = require('./ActionsDB/Users/UsersActions');
+/*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
 const { getTable } = require('./database_Conections/SuperUsuarios/DashboardSU');
@@ -40,9 +47,6 @@ const { getNumeroDeUsuarios } = require('./database_Conections/SuperUsuarios/Das
 const { incrementUser } = require('./database_Conections/SuperUsuarios/DashboardSU');
 const { getInfoUser } = require('./database_Conections/SuperUsuarios/DashboardSU');
 const { deleteUser } = require('./database_Conections/SuperUsuarios/DashboardSU');
-
-//LOGIN NORMAL
-const { AuthNormal } = require('./database_Conections/login');
 
 //MODULO DE USUARIOS
 const {
@@ -91,18 +95,42 @@ const {
   getFechasPsicologia
 } = require('./database_Conections/Widgets/widgets-functions');
 
-
+*/
 
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S SUPER USUARIOS
 //------------------------------------------------------------- Ruta de inicio de sesión de super usuarios
-app.post('/api/login', async (req, res) => {
-  //Obtener el body
-  const { email, password } = req.body;
+app.post('/AppConnection/Login', async (req, res) => {
+  const Data = req.body;
   //Método para autenticar el super usuario
-  AuthSU(req, res, email);
+  Autentication(req, res, Data);
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S USUARIOS
+//------------------------------------------------------------- Insert de Usuarios
+app.post('/AppConnection/Users', async (req, res) => {
+  const Data = req.body;
+  insertUser(req, res, Data);
+});
+
+//------------------------------------------------------------- GetAll de Usuarios
+app.get('/AppConnection/Users', async (req, res) => {
+  const Data = req.body;
+  getAllUsers(req, res, Data.ID_Centro);
+});
+//------------------------------------------------------------- Delete de Usuarios
+app.delete('/AppConnection/Users/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteUser(req, res, id);
+});
+//------------------------------------------------------------- Update de Usuarios
+app.put('/AppConnection/Users/:id', async (req, res) => {
+ const id = req.params.id;
+  updateUser(req, res, id);
+});
+
+/*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles
 app.get('/api/tableRol', async (req, res) => {
   //Método para autenticar el super usuario
@@ -369,6 +397,10 @@ app.post('/api/New-Assistance-Taller', async (req, res) => {
   const formData = req.body;
   InsertAssitance(req, res, formData);
 });
+
+
+
+*/
 
 const host = '0.0.0.0'; // Escucha en todas las interfaces
 

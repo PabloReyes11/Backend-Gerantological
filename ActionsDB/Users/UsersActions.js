@@ -65,9 +65,9 @@ function deleteUser(req, res, userID) {
     });
 }
 
-// Get all users
+// Get all users with their personal information and center name
 function getAllUsers(req, res, ID_Centro) {
-    const query = 'SELECT * FROM Users WHERE ID_Centro = ?';
+    const query = 'SELECT Users.*, InformationPersonal.Nombre, InformationPersonal.ApellidoP, InformationPersonal.ApellidoM, centros.Nombre AS NombreCentro FROM Users INNER JOIN InformationPersonal ON Users.UserID = InformationPersonal.UserID INNER JOIN centros ON Users.ID_Centro = centros.ID_Centro WHERE Users.ID_Centro = ?';
     const values = [ID_Centro];
 
     return new Promise((resolve, reject) => {
@@ -76,7 +76,6 @@ function getAllUsers(req, res, ID_Centro) {
                 reject(error);
             } else {
                 resolve(results);
-                console.log(results);
                 res.send(results);
             }
         });

@@ -115,7 +115,7 @@ app.post('/AppConnection/Users', async (req, res) => {
 });
 
 //------------------------------------------------------------- GetAll de Usuarios
-app.get('/AppConnection/Users', async (req, res) => {
+app.post('/AppConnection/Users/Table', async (req, res) => {
   const Data = req.body;
   getAllUsers(req, res, Data.ID_Centro);
 });

@@ -76,6 +76,7 @@ function getAllUsers(req, res, ID_Centro) {
                 reject(error);
             } else {
                 resolve(results);
+                console.log(results);
                 res.send(results);
             }
         });

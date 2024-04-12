@@ -6,11 +6,12 @@ const CryptoJS = require('crypto-js');
 
 //-----------------------------------------------------------loggin super usuario
 function Autentication(req, res, Data) {
-    const { Email, Password } = Data;
+    const { email, password2 } = Data;
+
     //Obten el hash de Password
-    const hash = CryptoJS.SHA256(Password).toString();
+    const hash = CryptoJS.SHA256(password2).toString();
     //console.log(hash);
-    connection.query('SELECT * FROM Users WHERE Email = ? AND Password = ?', [Email, hash], (error, results) => {
+    connection.query('SELECT * FROM Users WHERE Email = ? AND Password = ?', [email, hash], (error, results) => {
         if (error) {
             console.error(error);
             res.status(500).json({ message: 'Internal server error' });

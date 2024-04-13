@@ -109,11 +109,16 @@ app.post('/AppConnection/Login', async (req, res) => {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S USUARIOS
 //------------------------------------------------------------- Insert de Usuarios
+// Ruta POST para insertar usuarios
 app.post('/AppConnection/Users', async (req, res) => {
   const Data = req.body;
-  insertUser(req, res, Data);
+  try {
+      await insertUser(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
-
 //------------------------------------------------------------- GetAll de Usuarios
 app.post('/AppConnection/Users/Table', async (req, res) => {
   const Data = req.body;

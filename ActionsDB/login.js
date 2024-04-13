@@ -18,6 +18,7 @@ function Autentication(req, res, Data) {
         } else {
             if (results.length > 0) {
                 console.log('Usuario logeado: '+results[0].Email);
+                console.log('Rol: ' +results[0].Rol);
                 res.send(results[0]);
             } else {
                 // Email does not exist in the Users table

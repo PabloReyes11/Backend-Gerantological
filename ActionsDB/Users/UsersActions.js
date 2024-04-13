@@ -10,25 +10,24 @@ function UID() {
 }
 
 
-
-// Insert a new user
+// Insertar un nuevo usuario
 function insertUser(req, res, Data) {
-    Data.UserID = UID();
+    Data.UserID = UID(); // Generar un ID único para el usuario
+
     const query = 'INSERT INTO Users (UserID, Email, Password, Rol, ID_Centro) VALUES (?, ?, ?, ?, ?)';
     const values = [Data.UserID, Data.Email, Data.Password, Data.Rol, Data.ID_Centro];
-    //console.log(values);
-    return new Promise((resolve, reject) => {
-        connection.query(query, values, (error, results) => {
-            if (error) {
-                reject(error);
-            } else {
 
-                resolve(results);
-                req.send({
-                    UserID: Data.UserID               
-                });
-            }
-        });
+    // Ejecutar la consulta SQL
+    connection.query(query, values, (error, results) => {
+        if (error) {
+            // Si hay un error en la consulta, enviar una respuesta de error
+            console.error('Error al insertar usuario:', error);
+            res.status(500).json({ error: 'Error interno del servidor' });
+        } else {
+            // Si la consulta se ejecuta correctamente, enviar una respuesta exitosa
+            console.log('Usuario insertado correctamente:', Data.UserID);
+            res.status(200).json({ UserID: Data.UserID });
+        }
     });
 }
 

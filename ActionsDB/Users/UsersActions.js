@@ -1,5 +1,7 @@
 const connection = require('../../SQL_CONECTION');
 const { v4: uuidv4 } = require('uuid');
+const CryptoJS = require('crypto-js');
+
 
 // Generate a unique ID
 function UID() {
@@ -13,9 +15,9 @@ function UID() {
 // Insertar un nuevo usuario
 function insertUser(req, res, Data) {
     Data.UserID = UID(); // Generar un ID único para el usuario
-
+    const PassHashed = CryptoJS.SHA256(Data.Password).toString();
     const query = 'INSERT INTO Users (UserID, Email, Password, Rol, ID_Centro) VALUES (?, ?, ?, ?, ?)';
-    const values = [Data.UserID, Data.Email, Data.Password, Data.Rol, Data.ID_Centro];
+    const values = [Data.UserID, Data.Email, PassHashed, Data.Rol, Data.ID_Centro];
 
     // Ejecutar la consulta SQL
     connection.query(query, values, (error, results) => {
@@ -82,11 +84,77 @@ function getAllUsers(req, res, ID_Centro) {
 }
 
 //////////////////////////////////////////- InformationPersonal
+// Insertar información personal de un usuario
+function insertInformationPersonal(req, res, Data) {
+    const query = 'INSERT INTO InformationPersonal (UserID, Nombre, ApellidoP, ApellidoM) VALUES (?, ?, ?, ?)';
+    const values = [Data.UserID, Data.Nombre, Data.ApellidoP, Data.ApellidoM];
+    return new Promise((resolve, reject) => {
+        connection.query(query, values, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log('Information personal inserted');
+                resolve(results);
+                
+                res.send({Message: 'Information personal inserted'});
+            }
+        });
+    });
+}
 
+// Actualizar información personal de un usuario
+function updateInformationPersonal(req, res, Data) {
+    const query = 'UPDATE InformationPersonal SET Nombre = ?, ApellidoP = ?, ApellidoM = ? WHERE UserID = ?';
+    const values = [Data.Nombre, Data.ApellidoP, Data.ApellidoM, Data.UserID];
+    return new Promise((resolve, reject) => {
+        connection.query(query, values, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send({Message: 'Information personal updated'});
+            }
+        });
+    });
+}
+
+// Eliminar información personal de un usuario
+function deleteInformationPersonal(req, res, userID) {
+    const query = 'DELETE FROM InformationPersonal WHERE UserID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send({Message: 'Information personal deleted'});
+            }
+        });
+    });
+}
+
+// Obtener información personal de un usuario
+function getInformationPersonal(req, res, userID) {
+    const query = 'SELECT * FROM InformationPersonal WHERE UserID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
 
 module.exports = {
     insertUser,
     updateUser,
     deleteUser,
-    getAllUsers
+    getAllUsers,
+    insertInformationPersonal,
+    updateInformationPersonal,
+    deleteInformationPersonal,
+    getInformationPersonal
 };

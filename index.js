@@ -36,7 +36,11 @@ const path = require('path');
 const { Autentication } = require('./ActionsDB/login');
 
 //users
-const { insertUser, updateUser, deleteUser, getAllUsers } = require('./ActionsDB/Users/UsersActions');
+const { insertUser, updateUser, deleteUser, getAllUsers,
+  insertInformationPersonal,
+    updateInformationPersonal,
+    deleteInformationPersonal,
+    getInformationPersonal} = require('./ActionsDB/Users/UsersActions');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -103,6 +107,8 @@ const {
 //------------------------------------------------------------- Ruta de inicio de sesión de super usuarios
 app.post('/AppConnection/Login', async (req, res) => {
   const Data = req.body;
+  console.log('data: ' + Data);
+  
   //Método para autenticar el super usuario
   Autentication(req, res, Data);
 });
@@ -133,6 +139,34 @@ app.delete('/AppConnection/Users/:id', async (req, res) => {
 app.put('/AppConnection/Users/:id', async (req, res) => {
  const id = req.params.id;
   updateUser(req, res, id);
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S  USUARIOS info personal
+//crear endpoint para insertar info personal
+app.post('/AppConnection/Users/InformationPersonal', async (req, res) => {
+  const Data = req.body;
+  try {
+      await insertInformationPersonal(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+//crear endpoint para obtener info personal
+app.get('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
+  const id = req.params.id;
+  getInformationPersonal(req, res, id);
+});
+//crear endpoint para actualizar info personal
+app.put('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
+  const id = req.params.id;
+  updateInformationPersonal(req, res, id);
+});
+//crear endpoint para borrar info personal
+app.delete('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteInformationPersonal(req, res, id);
 });
 
 /*

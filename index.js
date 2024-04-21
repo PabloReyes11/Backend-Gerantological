@@ -41,6 +41,8 @@ const { insertUser, updateUser, deleteUser, getAllUsers,
     updateInformationPersonal,
     deleteInformationPersonal,
     getInformationPersonal} = require('./ActionsDB/Users/UsersActions');
+
+const {getDelegaciones} = require('./ActionsDB/Delegations');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -167,6 +169,13 @@ app.put('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
 app.delete('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
   const id = req.params.id;
   deleteInformationPersonal(req, res, id);
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S DELEGACIONES
+//crear endpoint para obtener delegaciones
+app.get('/AppConnection/Delegaciones', async (req, res) => {
+  getDelegaciones(req, res);
 });
 
 /*

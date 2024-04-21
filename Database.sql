@@ -43,6 +43,21 @@ CREATE TABLE delegacion (
   PRIMARY KEY (ID_Delegacion)
 );
 
+CREATE TABLE Piscologia_consultas (
+  Expediente_ID VARCHAR(100) NOT NULL,
+  NumeroExpediente INT AUTO_INCREMENT PRIMARY KEY,
+  Fecha DATE NOT NULL,
+  ID_Delegacion VARCHAR(100) NOT NULL,
+  ID_Centro VARCHAR(20) NOT NULL,
+  Nombre VARCHAR(100) NOT NULL,
+  ApellidoP VARCHAR(100) NOT NULL,
+  ApellidoM VARCHAR(100) NOT NULL,
+  Edad INT NOT NULL,
+  Telefono VARCHAR(10) NOT NULL, -- Cambiado a VARCHAR para permitir ceros a la izquierda
+  Motivo TEXT NOT NULL,
+  UserID VARCHAR(100) NOT NULL
+);
+
 -- Volcado de datos para la tabla `delegacion`
 INSERT INTO `delegacion` (`ID_Delegacion`, `Nombre`) VALUES
 ('DL-01', 'Cerro Gordo'),
@@ -82,6 +97,12 @@ http://localhost:3000/AppConnection/Login
   "Email": "admin@dif.com",
   "Password": "Admin"
 }
+
+
+
+
+
+ Delegación, Nombre, Edad, Número de contacto, Motivo de intervención
 */
 
 

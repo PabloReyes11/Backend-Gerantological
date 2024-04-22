@@ -43,6 +43,11 @@ const { insertUser, updateUser, deleteUser, getAllUsers,
     getInformationPersonal} = require('./ActionsDB/Users/UsersActions');
 
 const {getDelegaciones} = require('./ActionsDB/Delegations');
+
+const { createConsulta,
+  getConsultaByID,
+  updateConsulta,
+  deleteConsulta, getAllConsultas,getConsultaByUserID } = require('./ActionsDB/Psicologia/PsicologiaActions');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -177,6 +182,37 @@ app.delete('/AppConnection/Users/InformationPersonal/:id', async (req, res) => {
 app.get('/AppConnection/Delegaciones', async (req, res) => {
   getDelegaciones(req, res);
 });
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S PSICOLOGÍA
+//enpoint de insertar
+app.post('/AppConnection/Psicologia/Consulta', async (req, res) => {
+  const Data = req.body;
+  console.log( Data);
+  try {
+      await createConsulta(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+//enpoint para obtener todas las consultas por usuario
+app.get('/AppConnection/Psicologia/Consulta/:id', async (req, res) => {
+  const id = req.params.id;
+  getConsultaByUserID(req, res, id);
+});
+//enpoint de obtener todas las consultas
+app.get('/AppConnection/Psicologia/Consulta', async (req, res) => {
+  getAllConsultas(req, res);
+});
+
+//endpoint para eliminar una consulta
+app.delete('/AppConnection/Psicologia/Consulta/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteConsulta(req, res, id);
+});
+
+
 
 /*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles

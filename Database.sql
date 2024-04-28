@@ -58,6 +58,23 @@ CREATE TABLE Piscologia_consultas (
   UserID VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE Enfermeria_consultas (
+  Expediente_ID VARCHAR(100) NOT NULL,
+  NumeroExpediente INT AUTO_INCREMENT PRIMARY KEY,
+  Fecha DATE NOT NULL,
+  ID_Delegacion VARCHAR(100) NOT NULL,
+  ID_Centro VARCHAR(20) NOT NULL,
+  Nombre VARCHAR(100) NOT NULL,
+  ApellidoP VARCHAR(100) NOT NULL,
+  ApellidoM VARCHAR(100) NOT NULL,
+   Edad INT NOT NULL,
+  PresionArterial DECIMAL(5, 2) NOT NULL,
+  Temperatura DECIMAL(5, 2) NOT NULL,
+  RitmoCardiaco DECIMAL(5, 2) NOT NULL,
+  UserID VARCHAR(100) NOT NULL
+);
+
+
 -- Volcado de datos para la tabla `delegacion`
 INSERT INTO `delegacion` (`ID_Delegacion`, `Nombre`) VALUES
 ('DL-01', 'Cerro Gordo'),

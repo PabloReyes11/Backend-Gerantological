@@ -40,7 +40,8 @@ const { insertUser, updateUser, deleteUser, getAllUsers,
   insertInformationPersonal,
     updateInformationPersonal,
     deleteInformationPersonal,
-    getInformationPersonal} = require('./ActionsDB/Users/UsersActions');
+    getInformationPersonal, 
+    getInfoResumenPsicologia } = require('./ActionsDB/Users/UsersActions');
 
 const {getDelegaciones} = require('./ActionsDB/Delegations');
 
@@ -48,6 +49,8 @@ const { createConsulta,
   getConsultaByID,
   updateConsulta,
   deleteConsulta, getAllConsultas,getConsultaByUserID } = require('./ActionsDB/Psicologia/PsicologiaActions');
+
+const {getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -212,7 +215,20 @@ app.delete('/AppConnection/Psicologia/Consulta/:id', async (req, res) => {
   deleteConsulta(req, res, id);
 });
 
+//enpoint de obtener todas las consultas
+app.get('/AppConnection/Psicologia/Resmen/:id', async (req, res) => {
+  console.log('id: ' + req.params.id);
+  const id = req.params.id;
+  getInfoResumenPsicologia(req, res, id);
+});
 
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S ENFERMERÍA*/
+//resumen de enfermeria
+app.get('/AppConnection/Enfermeria/Resumen/:id', async (req, res) => {
+  const id = req.params.id;
+  getInfoResumenEnfermeria(req, res, id);
+});
 
 /*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles

@@ -148,6 +148,48 @@ function getInformationPersonal(req, res, userID) {
     });
 }
 
+// Obtener información de estadistica psicologia
+// Obtener información de estadística
+// Obtener información de estadística
+function getInfoResumenPsicologia(req, res, userID) {
+    const query = `
+        SELECT 
+            CONCAT(IP.Nombre, ' ', IP.ApellidoP, ' ', IP.ApellidoM) AS NombreCompleto,
+            C.Nombre AS NombreCentro,
+            COUNT(PC.Expediente_ID) AS TotalConsultas,
+            MONTHNAME(PC.Fecha) AS MesMasActivo,
+            CONCAT(PC.Nombre, ' ', PC.ApellidoP, ' ', PC.ApellidoM) AS UltimoPacienteAtendido
+        FROM 
+            Users U
+        INNER JOIN 
+            InformationPersonal IP ON U.UserID = IP.UserID
+        LEFT JOIN 
+            Piscologia_consultas PC ON U.UserID = PC.UserID
+        LEFT JOIN 
+            centros C ON U.ID_Centro = C.ID_Centro
+        WHERE 
+            U.UserID = ?
+        GROUP BY 
+            C.Nombre
+        ORDER BY 
+            PC.Fecha DESC
+        LIMIT 1`;
+        
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+
+
+
 module.exports = {
     insertUser,
     updateUser,
@@ -156,5 +198,7 @@ module.exports = {
     insertInformationPersonal,
     updateInformationPersonal,
     deleteInformationPersonal,
-    getInformationPersonal
+    getInformationPersonal,
+    getInfoResumenPsicologia
+
 };

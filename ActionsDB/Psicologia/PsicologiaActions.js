@@ -86,21 +86,43 @@ function getConsultaByID(req, res, consultaID) {
     });
 }
 
-//obtener consulta por UserID
 function getConsultaByUserID(req, res, userID) {
-    const query = 'SELECT * FROM Piscologia_consultas WHERE UserID = ?';
+    const query = `
+        SELECT 
+            PC.Expediente_ID,
+            PC.NumeroExpediente,
+            PC.Fecha,
+            D.Nombre AS NombreDelegacion,
+            C.Nombre AS NombreCentro,
+            PC.Nombre AS NombrePaciente,
+            PC.ApellidoP AS ApellidoPPaciente,
+            PC.ApellidoM AS ApellidoMPaciente,
+            PC.Edad,
+            PC.Telefono,
+            PC.Motivo,
+            PC.UserID
+        FROM 
+            Piscologia_consultas PC
+        INNER JOIN 
+            centros C ON PC.ID_Centro = C.ID_Centro
+        INNER JOIN 
+            delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        WHERE 
+            PC.UserID = ?`;
+            
     return new Promise((resolve, reject) => {
         connection.query(query, userID, (error, results) => {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consultas obtenida exitosamente")
+                console.log("Consultas obtenidas exitosamente");
                 resolve(results);
                 res.send(results);
             }
         });
     });
 }
+
 
 // Obtener todas las consultas
 function getAllConsultas(req, res) {

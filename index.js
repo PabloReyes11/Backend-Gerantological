@@ -50,7 +50,11 @@ const { createConsulta,
   updateConsulta,
   deleteConsulta, getAllConsultas,getConsultaByUserID } = require('./ActionsDB/Psicologia/PsicologiaActions');
 
-const {getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
+const {createEnfermeriaConsulta,
+  getConsultaEnfermeriaByUserID,
+  updateEnfermeriaConsulta,
+  deleteEnfermeriaConsulta, getAllEnfermeriaConsultas,
+  getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -224,6 +228,31 @@ app.get('/AppConnection/Psicologia/Resmen/:id', async (req, res) => {
 
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S ENFERMERÍA*/
+//create consulta
+app.post('/AppConnection/Enfermeria/Consulta', async (req, res) => {
+  const Data = req.body;
+  try {
+      await createEnfermeriaConsulta(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+//get para obtener consulta por userid
+app.get('/AppConnection/Enfermeria/Consulta/:id', async (req, res) => {
+  const id = req.params.id;
+  getConsultaEnfermeriaByUserID(req, res, id);
+});
+
+//delete para eliminar consulta
+app.delete('/AppConnection/Enfermeria/Consulta/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteEnfermeriaConsulta(req, res, id);
+});
+
+
+
 //resumen de enfermeria
 app.get('/AppConnection/Enfermeria/Resumen/:id', async (req, res) => {
   const id = req.params.id;

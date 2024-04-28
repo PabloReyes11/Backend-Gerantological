@@ -28,6 +28,8 @@ function insertUser(req, res, Data) {
         } else {
             // Si la consulta se ejecuta correctamente, enviar una respuesta exitosa
             console.log('Usuario insertado correctamente:', Data.UserID);
+            //MOSTRAR HASH DE PASSWORD
+            console.log('Password hashed:', PassHashed);
             res.status(200).json({ UserID: Data.UserID });
         }
     });

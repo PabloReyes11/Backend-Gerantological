@@ -67,8 +67,8 @@ CREATE TABLE Enfermeria_consultas (
   Nombre VARCHAR(100) NOT NULL,
   ApellidoP VARCHAR(100) NOT NULL,
   ApellidoM VARCHAR(100) NOT NULL,
-   Edad INT NOT NULL,
-  PresionArterial DECIMAL(5, 2) NOT NULL,
+  Edad INT NOT NULL,
+  PresionArterial VARCHAR(100) NOT NULL,
   Temperatura DECIMAL(5, 2) NOT NULL,
   RitmoCardiaco DECIMAL(5, 2) NOT NULL,
   UserID VARCHAR(100) NOT NULL
@@ -87,11 +87,9 @@ INSERT INTO `delegacion` (`ID_Delegacion`, `Nombre`) VALUES
 
 
 INSERT INTO `centros` (`ID_Centro`, `Nombre`, `Direccion`, `ID_Delegacion`, `CodigoPostal`) VALUES
-('CEDIF-01', 'Centro Gerontológico San Juan de Dios', 'Plaza Revolución 107, San Juan de Dios, León, Gto', 'DL-05', 37004),
-('CEDIF-02', 'Sistema Nacional para el Desarrollo Integral de la Familia', 'Familia San Bruno 102, Jardines de Los Naranjos, Praderas de Santa Rosa, León, Gto', 'DL-03', 37210),
-('CEDIF-03', 'La Casa de los Abuelos', 'Juan Bautista La Salle 303, Panorama, León, Gto', 'DL-01', 37160);
-
-
+('CEDIF-01', 'San Juan de Dios', 'Plaza Revolución 107, San Juan de Dios, León, Gto', 'DL-05', 37004),
+('CEDIF-02', 'Con Deseos de Vivir', 'Familia San Bruno 102, Jardines de Los Naranjos, Praderas de Santa Rosa, León, Gto', 'DL-03', 37210),
+('CEDIF-03', 'Casa de los abuelos', 'Juan Bautista La Salle 303, Panorama, León, Gto', 'DL-01', 37160);
 
 
 
@@ -102,24 +100,44 @@ CREATE USER 'AdminDif'@'localhost' IDENTIFIED BY 'EcabLUgdwUd71Lw';
 GRANT ALL PRIVILEGES ON Life_Up_DB.* TO 'AdminDif'@'localhost';
 FLUSH PRIVILEGES;
 
-
+////////////////////////////////////////////////////////////////////////////////////   DIF SAN JUAN DE DIOS ----
 INSERT INTO Users (UserID, Email, Password, Rol, ID_Centro)
-VALUES ('Admin1234567890', 'admin@dif.com', 'c1c224b03cd9bc7b6a86d77f5dace40191766c485cd55dc48caf9ac873335d6f', 'Administrador', 'CEDIF-01');
+VALUES ('31f626a0-81f0-46a6-bb56-b818e3fd5dbc', 'administrador.SJDD@dif.com', 'e63fe0bfb493d19ce17b301a16453ae56de8d379585f9ec1ab5784ed18903cfa', 'Administrador', 'CEDIF-01');
 
 INSERT INTO InformationPersonal (UserID, Nombre, ApellidoP, ApellidoM)
-VALUES ('Admin1234567890', 'Juan', 'Pérez', 'Gómez');
+VALUES ('31f626a0-81f0-46a6-bb56-b818e3fd5dbc', 'Admin', 'Admin', 'Admin');
 
-http://localhost:3000/AppConnection/Login
 {
-  "Email": "admin@dif.com",
-  "Password": "Admin"
+  "Email": "administrador.SJDD@dif.com",
+  "Password": "AdministradorSanJuanDeDios"
 }
 
 
+////////////////////////////////////////////////////////////////////////////////////   DIF Con Deseos de Vivir ----
+INSERT INTO Users (UserID, Email, Password, Rol, ID_Centro)
+VALUES ('b2f931b1-ed1f-49e8-9ccf-fad4f4f791b1', 'administrador.SJDD@dif.com', 'b8f61ea007b0dbecebf47c49d0024891fb7f498491478ef4601665d17d8dd0eb', 'Administrador', 'CEDIF-02');
+
+INSERT INTO InformationPersonal (UserID, Nombre, ApellidoP, ApellidoM)
+VALUES ('b2f931b1-ed1f-49e8-9ccf-fad4f4f791b1', 'Admin', 'Admin', 'Admin');
+
+{
+  "Email": "administrador.CDDV@dif.com",
+  "Password": "AdministradorConDeseosDeVivir"
+}
+
+////////////////////////////////////////////////////////////////////////////////////    DIF Casa de los abuelos ----
+INSERT INTO Users (UserID, Email, Password, Rol, ID_Centro)
+VALUES ('be116e3d-b9a3-41df-9644-d1bf6246a4fc', 'administrador.CDLA@dif.com', 'c29562e067a0b0e75b2d8740b7746b413cb269a7354fe7502e88814795152903', 'Administrador', 'CEDIF-03');
+
+INSERT INTO InformationPersonal (UserID, Nombre, ApellidoP, ApellidoM)
+VALUES ('be116e3d-b9a3-41df-9644-d1bf6246a4fc', 'Admin', 'Admin', 'Admin');
+
+{
+  "Email": "administrador.CDLA@dif.com",
+  "Password": "AdministradorCasadelosAbuelos"
+}
 
 
-
- Delegación, Nombre, Edad, Número de contacto, Motivo de intervención
 */
 
 

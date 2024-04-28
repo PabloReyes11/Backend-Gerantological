@@ -2,7 +2,7 @@ const connection = require('../../SQL_CONECTION');
 const { v4: uuidv4 } = require('uuid');
 
 /*
-CREATE TABLE Piscologia_consultas (
+CREATE TABLE Enfermeria_consultas (
   Expediente_ID VARCHAR(100) NOT NULL,
   NumeroExpediente INT AUTO_INCREMENT PRIMARY KEY,
   Fecha DATE NOT NULL,
@@ -12,26 +12,12 @@ CREATE TABLE Piscologia_consultas (
   ApellidoP VARCHAR(100) NOT NULL,
   ApellidoM VARCHAR(100) NOT NULL,
   Edad INT NOT NULL,
-  Telefono VARCHAR(10) NOT NULL, -- Cambiado a VARCHAR para permitir ceros a la izquierda
-  Motivo TEXT NOT NULL,
+  PresionArterial VARCHAR(100) NOT NULL,
+  Temperatura DECIMAL(5, 2) NOT NULL,
+  RitmoCardiaco DECIMAL(5, 2) NOT NULL,
   UserID VARCHAR(100) NOT NULL
 );
 
-
-
-{
-  "Expediente_ID": "",
-  "Fecha": "2021-10-10",
-  "ID_Delegacion": "123456",
-  "ID_Centro": "123456",
-  "Nombre": "Juan",
-  "ApellidoP": "Perez",
-  "ApellidoM": "Gomez",
-  "Edad": 25,
-  "Telefono": "1234567890",
-  "Motivo": "Problemas de ansiedad",
-  "UserID": "123456"
-}
 */
 
 // Generate a unique ID
@@ -39,6 +25,120 @@ function UID() {
     return uuidv4();
 }
 
+// Crear una nueva consulta de enfermería
+function createEnfermeriaConsulta(req, res, consultaData) {
+    consultaData.Expediente_ID = UID();
+    const query = 'INSERT INTO Enfermeria_consultas SET ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, consultaData, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log("Consulta de enfermería creada exitosamente");
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+// Obtener una consulta de enfermería por su ID
+function getEnfermeriaConsultaByID(req, res, consultaID) {
+    const query = 'SELECT * FROM Enfermeria_consultas WHERE NumeroExpediente = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, consultaID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+// Obtener todas las consultas de enfermería
+function getAllEnfermeriaConsultas(req, res, UserID) {
+    const query = 'SELECT * FROM Enfermeria_consultas WHERE UserID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, UserID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+function getConsultaEnfermeriaByUserID(req, res, userID) {
+    const query = `
+        SELECT 
+            PC.Expediente_ID,
+            PC.NumeroExpediente,
+            PC.Fecha,
+            C.Nombre AS ID_Centro,
+            PC.Nombre,
+            PC.ApellidoP,
+            PC.ApellidoM,
+            PC.Edad,
+            PC.PresionArterial,
+            PC.Temperatura,
+            PC.RitmoCardiaco,
+            PC.UserID
+        FROM 
+            Enfermeria_consultas PC
+        INNER JOIN 
+            centros C ON PC.ID_Centro = C.ID_Centro
+        INNER JOIN 
+            delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        WHERE 
+            PC.UserID = ?`;
+            
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log("Consultas obtenidas exitosamente");
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+// Actualizar una consulta de enfermería
+function updateEnfermeriaConsulta(req, res, consultaID, consultaData) {
+    const query = 'UPDATE Enfermeria_consultas SET ? WHERE NumeroExpediente = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [consultaData, consultaID], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+// Eliminar una consulta de enfermería
+function deleteEnfermeriaConsulta(req, res, consultaID) {
+    const query = 'DELETE FROM Enfermeria_consultas WHERE NumeroExpediente = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, consultaID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                console.log("Consulta de enfermería eliminada exitosamente");
+                res.send(results);
+            }
+        });
+    });
+}
 
 function getInfoResumenEnfermeria(req, res, userID) {
     const query = `
@@ -78,5 +178,11 @@ function getInfoResumenEnfermeria(req, res, userID) {
 
 
 module.exports = {
-    getInfoResumenEnfermeria
+    createEnfermeriaConsulta,
+    getEnfermeriaConsultaByID,
+    getAllEnfermeriaConsultas,
+    updateEnfermeriaConsulta,
+    deleteEnfermeriaConsulta,
+    getInfoResumenEnfermeria,
+    getConsultaEnfermeriaByUserID
 };

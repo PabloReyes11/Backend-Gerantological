@@ -74,6 +74,26 @@ CREATE TABLE Enfermeria_consultas (
   UserID VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE Talleres (
+  TallerID VARCHAR(100) NOT NULL,
+  NumeroTaller INT AUTO_INCREMENT PRIMARY KEY,
+  Nombre VARCHAR(100) NOT NULL,
+  CentroID VARCHAR(20) NOT NULL,
+  Instructor_ID VARCHAR(100) NOT NULL,
+  GrupoExterno BOOLEAN NOT NULL,
+  Duracion INT NOT NULL,
+  Dias VARCHAR(200) NOT NULL,
+  Hora VARCHAR(100) NOT NULL,
+  Cupo INT NOT NULL
+);
+ 
+CREATE TABLE Asistencia (
+  TallerID VARCHAR(100) NOT NULL PRIMARY KEY,
+  Fecha DATE NOT NULL,
+  Asistentes INT NOT NULL
+);
+
+
 
 -- Volcado de datos para la tabla `delegacion`
 INSERT INTO `delegacion` (`ID_Delegacion`, `Nombre`) VALUES

@@ -189,7 +189,22 @@ function getInfoResumenPsicologia(req, res, userID) {
     });
 }
 
+//funcion que me retorne select * from usuarios where id_centro = id_centro y rol = rol
+function getUsersByRol(req, res, ID_Centro, Rol) {
+    const query = 'SELECT * FROM Users WHERE ID_Centro = ? AND Rol = ?';
+    const values = [ID_Centro, Rol];
 
+    return new Promise((resolve, reject) => {
+        connection.query(query, values, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
 
 
 module.exports = {
@@ -201,6 +216,7 @@ module.exports = {
     updateInformationPersonal,
     deleteInformationPersonal,
     getInformationPersonal,
-    getInfoResumenPsicologia
+    getInfoResumenPsicologia,
+    getUsersByRol
 
 };

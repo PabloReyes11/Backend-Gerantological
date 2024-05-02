@@ -55,6 +55,8 @@ const {createEnfermeriaConsulta,
   updateEnfermeriaConsulta,
   deleteEnfermeriaConsulta, getAllEnfermeriaConsultas,
   getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
+
+  const {createTaller, getTalleres, getTallerByID} = require('./ActionsDB/Talleres/Talleres');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -259,6 +261,34 @@ app.get('/AppConnection/Enfermeria/Resumen/:id', async (req, res) => {
   getInfoResumenEnfermeria(req, res, id);
 });
 
+
+//------------------------------------------------------------- Endpoints de talleres
+//insertar taller
+app.post('/AppConnection/Talleres', async (req, res) => {
+  const Data = req.body;
+  try {
+      await createTaller(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+//obtener todos los talleres
+app.get('/AppConnection/Talleres/:id', async (req, res) => {
+  const centroID = req.params.id;
+  getTalleres(req, res, centroID);
+});
+
+//get taller por id
+app.get('/AppConnection/Talleres/:id', async (req, res) => {
+  const id = req.params.id;
+  getTallerByID(req, res, id);
+}); 
+
+//get para un hello world
+app.get('/Test/App', (req, res) => {
+  res.send('Hello World');
+});
 /*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles
 app.get('/api/tableRol', async (req, res) => {

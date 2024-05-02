@@ -8,13 +8,23 @@ CREATE TABLE Talleres (
   Nombre VARCHAR(100) NOT NULL,
   CentroID VARCHAR(20) NOT NULL,
   Instructor_ID VARCHAR(100) NOT NULL,
+  GrupoExterno BOOLEAN NOT NULL,
   Duracion INT NOT NULL,
   Dias VARCHAR(200) NOT NULL,
   Hora VARCHAR(100) NOT NULL,
   Cupo INT NOT NULL
 );
 
-
+{
+    "Nombre": "Taller depintura",
+    "CentroID": "PRUEBA TALLER",
+  "Instructor_ID": "SJND",
+  "GrupoExterno": false,
+  "Duracion": 120,
+  "Dias": "lUNES, MARTES",
+  "Hora": "14:30 - 16:20",
+  "Cupo": 30
+}
 */
 
 // Generate a unique ID
@@ -32,7 +42,8 @@ function createTaller(req, res, tallerData) {
                 reject(error);
             } else {
                 resolve(results);
-                res.send(results);
+                console.log('Taller creado con éxito: ', tallerData.TallerID);
+                res.send({"ID": tallerData.TallerID});
             }
         });
     });
@@ -47,6 +58,7 @@ function getTalleres(req, res, centroID) {
                 reject(error);
             } else {
                 resolve(results);
+                //res.send json ocn el id
                 res.send(results);
             }
         });
@@ -71,5 +83,5 @@ function getTallerByID(req, res, tallerID) {
 
 
 module.exports = {
- 
+ createTaller, getTalleres, getTallerByID
 };

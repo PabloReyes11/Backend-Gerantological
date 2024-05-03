@@ -56,7 +56,10 @@ const {createEnfermeriaConsulta,
   deleteEnfermeriaConsulta, getAllEnfermeriaConsultas,
   getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
 
-  const {createTaller, getTalleres, getTallerByID} = require('./ActionsDB/Talleres/Talleres');
+  const {createTaller, getTalleres, getTallerByID, getInstructors, deleteTaller,
+    registrarAsistencia,getTalleresUsuario,
+    getAsistenciasInstructor, deleteAsistencia,
+    getResumenInstructor, modificarInstructor} = require('./ActionsDB/Talleres/Talleres');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -285,9 +288,72 @@ app.get('/AppConnection/Talleres/:id', async (req, res) => {
   getTallerByID(req, res, id);
 }); 
 
+//getInstructores
+app.get('/AppConnection/Talleres/Instructores', async (req, res) => {
+  console.log('entro');
+  //getInstructors(req, res);
+});
+
+app.get('/AppConnection/Instructores/:id', async (req, res) =>   {
+  //obtener el id
+  const id_centro = req.params.id;
+  
+  getInstructors(req, res, id_centro);
+});
+
 //get para un hello world
-app.get('/Test/App', (req, res) => {
+app.get('/Test/App', async (req, res) =>   {
+  console.log('Holaa');
   res.send('Hello World');
+});
+
+//Endpoint para eliminar un taller
+app.delete('/AppConnection/Talleres/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteTaller(req, res, id);
+});
+
+//obtener talleres por ususario
+app.get('/AppConnection/Talleres/Usuario/:id', async (req, res) => {
+  const id = req.params.id;
+  getTalleresUsuario(req, res, id);
+});
+
+//registrar la asistencia
+app.post('/AppConnection/Talleres/Asistencia', async (req, res) => {
+  const Data = req.body;
+  try {
+      await registrarAsistencia(req, res, Data); // Llamar a la función insertUser
+  } catch (error) {
+      console.error('Error al procesar la solicitud:', error);
+      res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
+//obtener la assitencias por instructor
+app.get('/AppConnection/Talleres/Asistencias/:id', async (req, res) => {
+  const id = req.params.id;
+  getAsistenciasInstructor(req, res, id);
+});
+
+//eliminar asistencia
+app.delete('/AppConnection/Talleres/Asistencia/:id', async (req, res) => {
+  const id = req.params.id;
+  deleteAsistencia(req, res, id);
+});
+
+//getResumen instructor
+app.get('/AppConnection/Talleres/Resumen/:id', async (req, res) => {
+  const id = req.params.id;
+  getResumenInstructor(req, res, id);
+});
+
+//modificar instructor
+app.put('/AppConnection/Talleres/Instructores/:id', async (req, res) => {
+  const id = req.params.id;
+  //obtener body el UserID
+  const Data = req.body;
+  modificarInstructor(req, res, Data.UserID, id);
 });
 /*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles

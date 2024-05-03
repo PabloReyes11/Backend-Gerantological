@@ -18,12 +18,12 @@ CREATE TABLE Talleres (
 {
     "Nombre": "Taller depintura",
     "CentroID": "PRUEBA TALLER",
-  "Instructor_ID": "SJND",
+    "Instructor_ID": "SJND",
   "GrupoExterno": false,
-  "Duracion": 120,
+    "Duracion": 120,
   "Dias": "lUNES, MARTES",
-  "Hora": "14:30 - 16:20",
-  "Cupo": 30
+    "Hora": "14:30 - 16:20",
+    "Cupo": 30
 }
 */
 
@@ -80,8 +80,181 @@ function getTallerByID(req, res, tallerID) {
     });
 }
 
+/*CREATE TABLE Users (
+  UserID varchar(100) NOT NULL,
+  Email varchar(50) NOT NULL,
+  Password varchar(100) NOT NULL,
+  Rol varchar(50) NOT NULL,
+  ID_Centro varchar(20) NOT NULL,
+  PRIMARY KEY (UserID) -- Definir UserID como clave primaria
+);
+*/
+//funcion que obtenga los usuarios que su Rol sea Instructor y el ID_Centro sea el que le pase de parametro
+function getInstructors(req, res, centroID) {
+    const query = 'SELECT * FROM Users WHERE Rol = "Instructor" AND ID_Centro = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, centroID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+//funcion para eliminar taller
+function deleteTaller(req, res, tallerID){
+    const query = 'DELETE FROM Talleres WHERE TallerID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, tallerID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+/*
+Registrar asistencias, crear funcion
+CREATE TABLE Asistencia (
+  AsistenciaID VARCHAR(100) NOT NULL PRIMARY KEY,
+  TallerID VARCHAR(100) NOT NULL,
+  Fecha DATE NOT NULL,
+  Asistentes INT NOT NULL,
+  UserID VARCHAR(100) NOT NULL
+);
+*/
+
+function getAsistenciasInstructor(req, res, instructorID) {
+    const query = `
+        SELECT t.Nombre AS NombreTaller, a.Asistentes, a.Fecha, a.AsistenciaID
+        FROM Talleres t
+        JOIN Asistencia a ON t.TallerID = a.TallerID
+        WHERE a.UserID = ?`;
+        
+    return new Promise((resolve, reject) => {
+        connection.query(query, instructorID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                //res.send json con el resultado
+                res.send(results);
+            }
+        });
+    });
+}
+//function para eliminar asistencia por id
+function deleteAsistencia(req, res, asistenciaID){
+    const query = 'DELETE FROM Asistencia WHERE AsistenciaID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, asistenciaID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+//obtener talleres que tiene un usuario
+function getTalleresUsuario(req, res, userID){
+    const query = 'SELECT * FROM Talleres WHERE Instructor_ID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+//crear funcion para registrar asistencias
+function registrarAsistencia(req, res, asistenciaData) {
+    asistenciaData.AsistenciaID = UID();
+    const query = 'INSERT INTO Asistencia SET ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, asistenciaData, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                console.log('Asistencia registrada con éxito: ', asistenciaData.TallerID);
+                res.send({"ID": asistenciaData.TallerID});
+            }
+        });
+    });
+}
+
+function getResumenInstructor(req, res, userID) {
+    const query = `
+        SELECT 
+            COUNT(DISTINCT t.TallerID) AS NumeroTalleres,
+            ROUND(AVG(a.Asistentes)) AS PromedioAsistentes,
+            (SELECT Nombre FROM Talleres WHERE TallerID = TallerMasAsistido.TallerID) AS TallerMasAsistido,
+            CONCAT(ip.Nombre, ' ', ip.ApellidoP, ' ', ip.ApellidoM) AS NombreCompleto,
+            c.Nombre AS NombreCentro
+        FROM 
+            Talleres t
+        JOIN 
+            Asistencia a ON t.TallerID = a.TallerID
+        JOIN 
+            Users u ON a.UserID = u.UserID
+        JOIN 
+            InformationPersonal ip ON u.UserID = ip.UserID
+        JOIN 
+            centros c ON u.ID_Centro = c.ID_Centro
+        JOIN 
+            (SELECT TallerID FROM Asistencia GROUP BY TallerID ORDER BY COUNT(*) DESC LIMIT 1) AS TallerMasAsistido 
+        WHERE 
+            u.UserID = ?
+        GROUP BY 
+            u.UserID`;
+        
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results[0]);
+                //res.send json con el resultado
+                res.send(results[0]);
+            }
+        });
+    });
+}
+
+//modificar el instructor asignado a un taller
+function modificarInstructor(req, res, instructorID, tallerID){
+    const query = 'UPDATE Talleres SET Instructor_ID = ? WHERE TallerID = ?';
+    return new Promise((resolve, reject) => {
+        connection.query(query, [instructorID, tallerID], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
+
+
 
 
 module.exports = {
- createTaller, getTalleres, getTallerByID
+ createTaller, getTalleres, getTallerByID,getInstructors,deleteTaller,
+ registrarAsistencia,getTalleresUsuario,
+ getAsistenciasInstructor,deleteAsistencia,
+ getResumenInstructor, modificarInstructor
 };

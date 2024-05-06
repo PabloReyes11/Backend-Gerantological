@@ -49,21 +49,40 @@ function createTaller(req, res, tallerData) {
     });
 }
 
-// Obtener todos los talleres de un centro
+// Obtener todos los talleres de un centro con el nombre del instructor y del centro
 function getTalleres(req, res, centroID) {
-    const query = 'SELECT * FROM Talleres WHERE CentroID = ?';
+    const query = `
+        SELECT 
+            Talleres.*,
+            Users.Email AS NombreInstructor,
+            centros.Nombre AS NombreCentro,
+            InformationPersonal.Nombre AS NombreInstructor,
+            InformationPersonal.ApellidoP AS AP_Instructor,
+            InformationPersonal.ApellidoM AS AM_Instructor
+        FROM 
+            Talleres
+        JOIN 
+            Users ON Talleres.Instructor_ID = Users.UserID
+        JOIN 
+            centros ON Talleres.CentroID = centros.ID_Centro
+        JOIN 
+            InformationPersonal ON Users.UserID = InformationPersonal.UserID
+        WHERE 
+            Talleres.CentroID = ?;
+    `;
     return new Promise((resolve, reject) => {
         connection.query(query, centroID, (error, results) => {
             if (error) {
                 reject(error);
             } else {
                 resolve(results);
-                //res.send json ocn el id
-                res.send(results);
+                // También puedes enviar la respuesta JSON aquí si lo deseas
+                res.json(results);
             }
         });
     });
 }
+
 
 // Obtener un taller por ID
 function getTallerByID(req, res, tallerID) {

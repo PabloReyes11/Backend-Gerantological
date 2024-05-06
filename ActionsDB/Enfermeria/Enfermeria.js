@@ -86,13 +86,16 @@ function getConsultaEnfermeriaByUserID(req, res, userID) {
             PC.PresionArterial,
             PC.Temperatura,
             PC.RitmoCardiaco,
-            PC.UserID
+            PC.UserID,
+            U.Email AS Personal
         FROM 
             Enfermeria_consultas PC
         INNER JOIN 
             centros C ON PC.ID_Centro = C.ID_Centro
         INNER JOIN 
             delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        INNER JOIN 
+            Users U ON PC.UserID = U.UserID
         WHERE 
             PC.UserID = ?`;
             
@@ -108,7 +111,45 @@ function getConsultaEnfermeriaByUserID(req, res, userID) {
         });
     });
 }
-
+function getConsultaEnfermeriaByCenterID(req, res, userID) {
+    const query = `
+        SELECT 
+            PC.Expediente_ID,
+            PC.NumeroExpediente,
+            PC.Fecha,
+            C.Nombre AS ID_Centro,
+            PC.Nombre,
+            PC.ApellidoP,
+            PC.ApellidoM,
+            PC.Edad,
+            PC.PresionArterial,
+            PC.Temperatura,
+            PC.RitmoCardiaco,
+            PC.UserID,
+            U.Email AS Personal
+        FROM 
+            Enfermeria_consultas PC
+        INNER JOIN 
+            centros C ON PC.ID_Centro = C.ID_Centro
+        INNER JOIN 
+            delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        INNER JOIN 
+            Users U ON PC.UserID = U.UserID
+        WHERE 
+            PC.ID_Centro = ?`;
+            
+    return new Promise((resolve, reject) => {
+        connection.query(query, userID, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log("Consultas obtenidas exitosamente");
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
 // Actualizar una consulta de enfermería
 function updateEnfermeriaConsulta(req, res, consultaID, consultaData) {
     const query = 'UPDATE Enfermeria_consultas SET ? WHERE NumeroExpediente = ?';
@@ -184,5 +225,6 @@ module.exports = {
     updateEnfermeriaConsulta,
     deleteEnfermeriaConsulta,
     getInfoResumenEnfermeria,
-    getConsultaEnfermeriaByUserID
+    getConsultaEnfermeriaByUserID,
+    getConsultaEnfermeriaByCenterID
 };

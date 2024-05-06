@@ -48,13 +48,13 @@ const {getDelegaciones} = require('./ActionsDB/Delegations');
 const { createConsulta,
   getConsultaByID,
   updateConsulta,
-  deleteConsulta, getAllConsultas,getConsultaByUserID } = require('./ActionsDB/Psicologia/PsicologiaActions');
+  deleteConsulta, getAllConsultas,getConsultaByUserID, getConsultaByCentroID} = require('./ActionsDB/Psicologia/PsicologiaActions');
 
 const {createEnfermeriaConsulta,
   getConsultaEnfermeriaByUserID,
   updateEnfermeriaConsulta,
   deleteEnfermeriaConsulta, getAllEnfermeriaConsultas,
-  getInfoResumenEnfermeria} = require('./ActionsDB/Enfermeria/Enfermeria');
+  getInfoResumenEnfermeria, getConsultaEnfermeriaByCenterID} = require('./ActionsDB/Enfermeria/Enfermeria');
 
   const {createTaller, getTalleres, getTallerByID, getInstructors, deleteTaller,
     registrarAsistencia,getTalleresUsuario,
@@ -213,6 +213,11 @@ app.get('/AppConnection/Psicologia/Consulta/:id', async (req, res) => {
   const id = req.params.id;
   getConsultaByUserID(req, res, id);
 });
+//obtener todo por centro
+app.get('/AppConnection/Psicologia/Consulta/Centro/:id', async (req, res) => {
+  const CentroID = req.params.id;
+  getConsultaByCentroID(req, res, CentroID);
+});
 //enpoint de obtener todas las consultas
 app.get('/AppConnection/Psicologia/Consulta', async (req, res) => {
   getAllConsultas(req, res);
@@ -248,6 +253,12 @@ app.post('/AppConnection/Enfermeria/Consulta', async (req, res) => {
 app.get('/AppConnection/Enfermeria/Consulta/:id', async (req, res) => {
   const id = req.params.id;
   getConsultaEnfermeriaByUserID(req, res, id);
+});
+
+//get para obtener consulta por userid
+app.get('/AppConnection/Enfermeria/Consulta/Centro/:id', async (req, res) => {
+  const id = req.params.id;
+  getConsultaEnfermeriaByCenterID(req, res, id);
 });
 
 //delete para eliminar consulta

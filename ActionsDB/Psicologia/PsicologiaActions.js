@@ -100,13 +100,16 @@ function getConsultaByUserID(req, res, userID) {
             PC.Edad,
             PC.Telefono,
             PC.Motivo,
-            PC.UserID
+            PC.UserID,
+            U.Email AS Personal
         FROM 
             Piscologia_consultas PC
         INNER JOIN 
             centros C ON PC.ID_Centro = C.ID_Centro
         INNER JOIN 
             delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        INNER JOIN 
+            Users U ON PC.UserID = U.UserID
         WHERE 
             PC.UserID = ?`;
             
@@ -122,7 +125,45 @@ function getConsultaByUserID(req, res, userID) {
         });
     });
 }
-
+function getConsultaByCentroID(req, res, centro) {
+    const query = `
+        SELECT 
+            PC.Expediente_ID,
+            PC.NumeroExpediente,
+            PC.Fecha,
+            D.Nombre AS NombreDelegacion,
+            C.Nombre AS NombreCentro,
+            PC.Nombre AS NombrePaciente,
+            PC.ApellidoP AS ApellidoPPaciente,
+            PC.ApellidoM AS ApellidoMPaciente,
+            U.Email AS Personal,
+            PC.Edad,
+            PC.Telefono,
+            PC.Motivo,
+            PC.UserID
+        FROM 
+            Piscologia_consultas PC
+        INNER JOIN 
+            centros C ON PC.ID_Centro = C.ID_Centro
+        INNER JOIN 
+            delegacion D ON PC.ID_Delegacion = D.ID_Delegacion
+        INNER JOIN 
+            Users U ON PC.UserID = U.UserID
+        WHERE 
+            PC.ID_Centro = ?`;
+            
+    return new Promise((resolve, reject) => {
+        connection.query(query, centro, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                console.log("Consultas obtenidas exitosamente");
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
 
 // Obtener todas las consultas
 function getAllConsultas(req, res) {
@@ -178,5 +219,6 @@ module.exports = {
     updateConsulta,
     deleteConsulta,
     getAllConsultas,
-    getConsultaByUserID
+    getConsultaByUserID,
+    getConsultaByCentroID
 };

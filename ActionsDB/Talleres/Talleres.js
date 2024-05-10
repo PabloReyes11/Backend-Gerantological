@@ -42,7 +42,7 @@ function createTaller(req, res, tallerData) {
                 reject(error);
             } else {
                 resolve(results);
-                console.log('Taller creado con éxito: ', tallerData.TallerID);
+                //console.log('Taller creado con éxito: ', tallerData.TallerID);
                 res.send({"ID": tallerData.TallerID});
             }
         });
@@ -207,7 +207,7 @@ function registrarAsistencia(req, res, asistenciaData) {
                 reject(error);
             } else {
                 resolve(results);
-                console.log('Asistencia registrada con éxito: ', asistenciaData.TallerID);
+                //console.log('Asistencia registrada con éxito: ', asistenciaData.TallerID);
                 res.send({"ID": asistenciaData.TallerID});
             }
         });

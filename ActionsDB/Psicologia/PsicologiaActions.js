@@ -62,7 +62,7 @@ function createConsulta(req, res, consultaData) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consulta creada exitosamente");
+                //console.log("Consulta creada exitosamente");
                 resolve(results);
                 res.send(results);
                 
@@ -118,7 +118,7 @@ function getConsultaByUserID(req, res, userID) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consultas obtenidas exitosamente");
+                //console.log("Consultas obtenidas exitosamente");
                 resolve(results);
                 res.send(results);
             }
@@ -157,7 +157,7 @@ function getConsultaByCentroID(req, res, centro) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consultas obtenidas exitosamente");
+                //console.log("Consultas obtenidas exitosamente");
                 resolve(results);
                 res.send(results);
             }
@@ -206,7 +206,7 @@ function deleteConsulta(req, res, consultaID) {
                 reject(error);
             } else {
                 resolve(results);
-                console.log("Consulta eliminada exitosamente");
+                //console.log("Consulta eliminada exitosamente");
                 res.send(results);
             }
         });

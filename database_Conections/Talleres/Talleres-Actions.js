@@ -32,12 +32,12 @@ function getIdTalleresUltimo(req, res) {
 
 function InsertNewTaller(req, res, formData) {
     connection.query('INSERT INTO talleres SET ?', formData, (error, results) => {
-        console.log("entro");
+        //console.log("entro");
         if (error) {
             console.error('Error al realizar el INSERT:', error);
             res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
         } else {
-            //console.log('Usuario agregado exitosamente');
+            ////console.log('Usuario agregado exitosamente');
             res.status(200).json({ message: ' agregado exitosamente' });
             //agregar el usuario
         }
@@ -60,7 +60,7 @@ function VerificarIDTaller(req, res, ID) {
           return res.sendStatus(200); // Envia solo el código de estado 200
         } else {
           // No matching results found, return 404 Not Found
-          console.log('No encontrado');
+          //console.log('No encontrado');
           return res.sendStatus(404); // Envia solo el código de estado 404
         }
       });
@@ -79,7 +79,7 @@ function DeleteTaller(req, res, ID) {
         } else {
             // Enviar los resultados de la consulta como respuesta
             res.sendStatus(200);
-            console.log('borrado')
+            //console.log('borrado')
         }
     });
 
@@ -93,7 +93,7 @@ function getListTalleres(req, res) {
         console.error('Error al ejecutar la consulta:', error);
         res.status(500).send('Error en el servidor');
       } else {
-        console.log("Enviando: "+ results.length);
+        //console.log("Enviando: "+ results.length);
         
         res.json(results);
       }
@@ -103,12 +103,12 @@ function getListTalleres(req, res) {
   
   function InsertAssitance(req, res, formData) {
     connection.query('INSERT INTO asistencia SET ?', formData, (error, results) => {
-        console.log("entro");
+        //console.log("entro");
         if (error) {
             console.error('Error al realizar el INSERT:', error);
             res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
         } else {
-            //console.log('Usuario agregado exitosamente');
+            ////console.log('Usuario agregado exitosamente');
             res.status(200).json({ message: ' agregado exitosamente' });
             //agregar el usuario
         }

@@ -10,7 +10,7 @@ function deleteUser(req, res, ID) {
     } else {
       // Enviar los resultados de la consulta como respuesta
       res.sendStatus(200);
-      console.log('borrado')
+      //console.log('borrado')
     }
   });
 
@@ -39,7 +39,7 @@ function insertUser(req, res, formData) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'Usuario agregado exitosamente' });
     }
   });
@@ -51,7 +51,7 @@ function incrementUser(req, res, Data) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'Usuario incrementado exitosamente' });
     }
   });

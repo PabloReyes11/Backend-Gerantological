@@ -27,9 +27,9 @@ function insertUser(req, res, Data) {
             res.status(500).json({ error: 'Error interno del servidor' });
         } else {
             // Si la consulta se ejecuta correctamente, enviar una respuesta exitosa
-            console.log('Usuario insertado correctamente:', Data.UserID);
+            //console.log('Usuario insertado correctamente:', Data.UserID);
             //MOSTRAR HASH DE PASSWORD
-            console.log('Password hashed:', PassHashed);
+            //console.log('Password hashed:', PassHashed);
             res.status(200).json({ UserID: Data.UserID });
         }
     });
@@ -95,7 +95,7 @@ function insertInformationPersonal(req, res, Data) {
             if (error) {
                 reject(error);
             } else {
-                console.log('Information personal inserted');
+                //console.log('Information personal inserted');
                 resolve(results);
                 
                 res.send({Message: 'Information personal inserted'});

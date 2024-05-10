@@ -5,17 +5,15 @@ const app = express();
 var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
-// Configuración de CORS
-app.use(cors());
-// Middleware para analizar el cuerpo de la solicitud como JSON
-app.use(express.json());
+// Configuración del app
 
-// Middleware para analizar el cuerpo de las solicitudes
+app.use(cors());
+app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 const destinoFoto = "uploads";
-// Configuración de multer para guardar la imagen en el servidor
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, './' + destinoFoto); // Carpeta donde se guardarán las imágenes, asegúrate de crearla
@@ -29,15 +27,13 @@ const upload = multer({ storage });
 const path = require('path');
 
 
-//require functions
-
-
 //LOGIN 
 const { Autentication } = require('./ActionsDB/login');
 
-//users
-const { insertUser, updateUser, deleteUser, getAllUsers,
-  insertInformationPersonal,
+//Users
+const { 
+  insertUser, updateUser, deleteUser, 
+  getAllUsers, insertInformationPersonal,
     updateInformationPersonal,
     deleteInformationPersonal,
     getInformationPersonal, 
@@ -64,16 +60,17 @@ const {createEnfermeriaConsulta,
     getResumenInstructor, modificarInstructor, 
     getTalleresYAsistentes} = require('./ActionsDB/Talleres/Talleres');
 
+
+//------------------------------------------------------------- Ruta de inicio
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'PageTest', 'index.html'));
 });
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S SUPER USUARIOS
 //------------------------------------------------------------- Ruta de inicio de sesión de super usuarios
 app.post('/AppConnection/Login', async (req, res) => {
   const Data = req.body;
-  console.log('data: ' + Data);
+  //console.log('data: ' + Data);
   
   //Método para autenticar el super usuario
   Autentication(req, res, Data);
@@ -146,7 +143,7 @@ app.get('/AppConnection/Delegaciones', async (req, res) => {
 //enpoint de insertar
 app.post('/AppConnection/Psicologia/Consulta', async (req, res) => {
   const Data = req.body;
-  console.log( Data);
+  //console.log( Data);
   try {
       await createConsulta(req, res, Data); // Llamar a la función insertUser
   } catch (error) {
@@ -178,7 +175,7 @@ app.delete('/AppConnection/Psicologia/Consulta/:id', async (req, res) => {
 
 //enpoint de obtener todas las consultas
 app.get('/AppConnection/Psicologia/Resmen/:id', async (req, res) => {
-  console.log('id: ' + req.params.id);
+  //console.log('id: ' + req.params.id);
   const id = req.params.id;
   getInfoResumenPsicologia(req, res, id);
 });
@@ -248,7 +245,7 @@ app.get('/AppConnection/Talleres/:id', async (req, res) => {
 
 //getInstructores
 app.get('/AppConnection/Talleres/Instructores', async (req, res) => {
-  console.log('entro');
+  //console.log('entro');
   //getInstructors(req, res);
 });
 
@@ -261,7 +258,7 @@ app.get('/AppConnection/Instructores/:id', async (req, res) =>   {
 
 //get para un hello world
 app.get('/Test/App', async (req, res) =>   {
-  console.log('Holaa');
+  //console.log('Holaa');
   res.send('Hello World');
 });
 
@@ -341,5 +338,5 @@ const host = '0.0.0.0'; // Escucha en todas las interfaces
 //_----------------------------------------------------------------------------
 // Iniciar el servidor
 app.listen(3001, host, () => {
-  console.log('Servidor Express en funcionamiento en el puerto 3001');
+  //console.log('Servidor Express en funcionamiento en el puerto 3001');
 });

@@ -40,9 +40,9 @@ async function getMasculino() {
       const cantidadFemeninos = await getFemenino();
 
       
-      //console.log("Masculinos: " + cantidadMasculinos);
-      //console.log("Femeninos: " + cantidadFemeninos);
-     // console.log("total: " + totalUser);
+      ////console.log("Masculinos: " + cantidadMasculinos);
+      ////console.log("Femeninos: " + cantidadFemeninos);
+     // //console.log("total: " + totalUser);
 
 
       const datos = [
@@ -50,8 +50,8 @@ async function getMasculino() {
         ['Masculino', cantidadMasculinos],
         ['Femenino', cantidadFemeninos],
     ];
-      //console.log("total: " + getPorcentaje(cantidadMasculinos, totalUser));
-      //console.log("fecha: "+ fecha);
+      ////console.log("total: " + getPorcentaje(cantidadMasculinos, totalUser));
+      ////console.log("fecha: "+ fecha);
       res.json(datos);
       // clasificar en porcentaje
     } catch (error) {

@@ -13,7 +13,7 @@ function obtenerTest(req, res, dato) {
           if (results && results.length > 0) {
             const email = results[0].Email;
             const rol = results[0].Rol;
-            //console.log("centro: "+ id);
+            ////console.log("centro: "+ id);
             res.json({ 
                 Valor: results.length,
                 Rol: rol

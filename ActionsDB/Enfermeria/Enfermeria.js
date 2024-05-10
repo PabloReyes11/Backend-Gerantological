@@ -34,7 +34,7 @@ function createEnfermeriaConsulta(req, res, consultaData) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consulta de enfermería creada exitosamente");
+                //console.log("Consulta de enfermería creada exitosamente");
                 resolve(results);
                 res.send(results);
             }
@@ -104,7 +104,7 @@ function getConsultaEnfermeriaByUserID(req, res, userID) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consultas obtenidas exitosamente");
+                //console.log("Consultas obtenidas exitosamente");
                 resolve(results);
                 res.send(results);
             }
@@ -143,7 +143,7 @@ function getConsultaEnfermeriaByCenterID(req, res, userID) {
             if (error) {
                 reject(error);
             } else {
-                console.log("Consultas obtenidas exitosamente");
+                //console.log("Consultas obtenidas exitosamente");
                 resolve(results);
                 res.send(results);
             }
@@ -174,7 +174,7 @@ function deleteEnfermeriaConsulta(req, res, consultaID) {
                 reject(error);
             } else {
                 resolve(results);
-                console.log("Consulta de enfermería eliminada exitosamente");
+                //console.log("Consulta de enfermería eliminada exitosamente");
                 res.send(results);
             }
         });

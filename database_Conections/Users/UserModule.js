@@ -13,7 +13,7 @@ function GetCentroID(req, res, ID_personal) {
       const { email, password } = req.body;
       if (results && results.length > 0) {
         const id = results[0].ID_Centro;
-        //console.log("centro: "+ id);
+        ////console.log("centro: "+ id);
         res.json({ Centro: id });
 
       } else {
@@ -32,7 +32,7 @@ function InsertNewUserInfoPersonal(req, res, formData) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'Usuario agregado exitosamente' });
     }
   });
@@ -48,7 +48,7 @@ function InsertNewUserInfoContact(req, res, formData) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'Usuario agregado exitosamente' });
     }
   });
@@ -62,7 +62,7 @@ function InsertNewUserInfoEmergencia(req, res, formData) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'Usuario agregado exitosamente' });
       //agregar el usuario
     }
@@ -77,7 +77,7 @@ function InsertNewUserPhoto(req, res, formData) {
       console.error('Error al realizar el INSERT:', error);
       res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
     } else {
-      //console.log('Usuario agregado exitosamente');
+      ////console.log('Usuario agregado exitosamente');
       res.status(200).json({ message: 'foto agregado exitosamente' });
       //agregar el usuario
     }
@@ -109,7 +109,7 @@ function obtenerResumenUserNew(req, res) {
   let TelefonoEmer = "";
   let URL = "";
   const { UserID } = req.body;
-  console.log(UserID);
+  //console.log(UserID);
 
   connection.query('SELECT * FROM usuarios WHERE UserID = ?', [UserID], (error, results) => {
     if (error) {
@@ -125,7 +125,7 @@ function obtenerResumenUserNew(req, res) {
         AM = results[0].ApellidoMaterno;
         Edad = results[0].Edad;
         Telefono = results[0].Telefono;
-        //console.log("centro: "+ id);
+        ////console.log("centro: "+ id);
         //obtener los siguientes values
         connection.query('SELECT * FROM direcciones WHERE UserID = ?', [UserID], (error, results) => {
           if (error) {
@@ -142,7 +142,7 @@ function obtenerResumenUserNew(req, res) {
               Delegacion = results[0].Delegacion;
               Ciudad = results[0].Ciudad;
               Estado = results[0].Estado;
-              //console.log("centro: "+ id);
+              ////console.log("centro: "+ id);
               //obtener los siguientes values
 
               connection.query('SELECT * FROM contactoemergencia WHERE UserID = ?', [UserID], (error, results) => {
@@ -160,7 +160,7 @@ function obtenerResumenUserNew(req, res) {
                     Parentesco = results[0].Parentesco;
                     NombreEmer = results[0].Nombre;
 
-                    //console.log("centro: "+ id);
+                    ////console.log("centro: "+ id);
                     //obtener los siguientes values
 
                     connection.query('SELECT * FROM fotouser WHERE UserID = ?', [UserID], (error, results) => {
@@ -177,7 +177,7 @@ function obtenerResumenUserNew(req, res) {
 
                           //res.sendFile(imagePath);
 
-                          //console.log("centro: "+ id);
+                          ////console.log("centro: "+ id);
                           //obtener los siguientes values
                           res.json({
                             ID: ID,
@@ -380,16 +380,16 @@ function DeleteUserInfo(req, res, ID) {
                 } else {
                   // Enviar los resultados de la consulta como respuesta
                   res.sendStatus(200);
-                  console.log('borrado')
+                  //console.log('borrado')
                 }
               });
-              console.log('borrado')
+              //console.log('borrado')
             }
           });
-          console.log('borrado')
+          //console.log('borrado')
         }
       });
-      console.log('borrado')
+      //console.log('borrado')
     }
   });
 

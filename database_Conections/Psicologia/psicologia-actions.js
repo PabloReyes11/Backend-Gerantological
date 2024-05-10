@@ -7,7 +7,7 @@ function InsertNewConsultPsicologia(req, res, formData) {
         console.error('Error al realizar el INSERT:', error);
         res.status(500).json({ error: 'Ocurrió un error al agregar el usuario' });
       } else {
-        //console.log('Usuario agregado exitosamente');
+        ////console.log('Usuario agregado exitosamente');
         res.status(200).json({ message: ' agregado exitosamente' });
         //agregar el usuario
       }

@@ -213,6 +213,32 @@ function deleteConsulta(req, res, consultaID) {
     });
 }
 
+
+//estadistica
+// Obtener el número de consultas por día para un centro específico
+function getConsultasPorDia(req, res, idCentro) {
+   
+    
+    // Consulta SQL para contar el número de consultas por día para un centro específico
+    const query = `
+        SELECT Fecha, COUNT(*) AS NumConsultas
+        FROM Piscologia_consultas
+        WHERE ID_Centro = ?
+        GROUP BY Fecha;
+    `;
+    
+    return new Promise((resolve, reject) => {
+        connection.query(query, [idCentro], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
 module.exports = {
     createConsulta,
     getConsultaByID,
@@ -220,5 +246,7 @@ module.exports = {
     deleteConsulta,
     getAllConsultas,
     getConsultaByUserID,
-    getConsultaByCentroID
+    getConsultaByCentroID,
+
+    getConsultasPorDia
 };

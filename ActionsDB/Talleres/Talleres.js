@@ -267,6 +267,34 @@ function modificarInstructor(req, res, instructorID, tallerID){
     });
 }
 
+// Obtener talleres registrados, sus días de impartición y la suma de asistentes
+function getTalleresYAsistentes(req, res) {
+    // Consulta SQL para obtener talleres, sus días de impartición y la suma de asistentes
+    const query = `
+        SELECT 
+            T.TallerID,
+            T.Nombre,
+            T.Dias,
+            SUM(A.Asistentes) AS TotalAsistentes
+        FROM 
+            Talleres T
+        LEFT JOIN 
+            Asistencia A ON T.TallerID = A.TallerID
+        GROUP BY 
+            T.TallerID, T.Nombre, T.Dias;
+    `;
+    
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
 
 
 
@@ -275,5 +303,7 @@ module.exports = {
  createTaller, getTalleres, getTallerByID,getInstructors,deleteTaller,
  registrarAsistencia,getTalleresUsuario,
  getAsistenciasInstructor,deleteAsistencia,
- getResumenInstructor, modificarInstructor
+ getResumenInstructor, modificarInstructor,
+
+ getTalleresYAsistentes
 };

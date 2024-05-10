@@ -217,6 +217,29 @@ function getInfoResumenEnfermeria(req, res, userID) {
     });
 }
 
+function getPacientesPorDia(req, res, idCentro) {
+   
+    
+    // Consulta SQL para contar el número de consultas por día para un centro específico
+    const query = `
+        SELECT Fecha, COUNT(*) AS NumConsultas
+        FROM Enfermeria_consultas
+        WHERE ID_Centro = ?
+        GROUP BY Fecha;
+    `;
+    
+    return new Promise((resolve, reject) => {
+        connection.query(query, [idCentro], (error, results) => {
+            if (error) {
+                reject(error);
+            } else {
+                resolve(results);
+                res.send(results);
+            }
+        });
+    });
+}
+
 
 module.exports = {
     createEnfermeriaConsulta,
@@ -226,5 +249,7 @@ module.exports = {
     deleteEnfermeriaConsulta,
     getInfoResumenEnfermeria,
     getConsultaEnfermeriaByUserID,
-    getConsultaEnfermeriaByCenterID
+    getConsultaEnfermeriaByCenterID,
+
+    getPacientesPorDia
 };

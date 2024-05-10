@@ -48,18 +48,21 @@ const {getDelegaciones} = require('./ActionsDB/Delegations');
 const { createConsulta,
   getConsultaByID,
   updateConsulta,
-  deleteConsulta, getAllConsultas,getConsultaByUserID, getConsultaByCentroID} = require('./ActionsDB/Psicologia/PsicologiaActions');
+  deleteConsulta, getAllConsultas,getConsultaByUserID, getConsultaByCentroID,
+  getConsultasPorDia } = require('./ActionsDB/Psicologia/PsicologiaActions');
 
 const {createEnfermeriaConsulta,
   getConsultaEnfermeriaByUserID,
   updateEnfermeriaConsulta,
   deleteEnfermeriaConsulta, getAllEnfermeriaConsultas,
-  getInfoResumenEnfermeria, getConsultaEnfermeriaByCenterID} = require('./ActionsDB/Enfermeria/Enfermeria');
+  getInfoResumenEnfermeria, getConsultaEnfermeriaByCenterID,
+  getPacientesPorDia} = require('./ActionsDB/Enfermeria/Enfermeria');
 
   const {createTaller, getTalleres, getTallerByID, getInstructors, deleteTaller,
     registrarAsistencia,getTalleresUsuario,
     getAsistenciasInstructor, deleteAsistencia,
-    getResumenInstructor, modificarInstructor} = require('./ActionsDB/Talleres/Talleres');
+    getResumenInstructor, modificarInstructor, 
+    getTalleresYAsistentes} = require('./ActionsDB/Talleres/Talleres');
 /*
 //IMPORTS PARA LAS FUNCTIONS DE SUPER USUARIO
 const { AuthSU } = require('./database_Conections/SuperUsuarios/LoginSU_sql');
@@ -365,6 +368,26 @@ app.put('/AppConnection/Talleres/Instructores/:id', async (req, res) => {
   //obtener body el UserID
   const Data = req.body;
   modificarInstructor(req, res, Data.UserID, id);
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S ESTADÍSTICAS
+//obtener las consultas psicologia por dia
+app.get('/AppConnection/Estadisticas/ConsultasPorDia/:id', async (req, res) => {
+  const id = req.params.id;
+  getConsultasPorDia(req, res, id);
+});
+
+//obtener las consultas enfermeria por dia
+app.get('/AppConnection/Estadisticas/ConsultasEnfermeriaPorDia/:id', async (req, res) => {
+  const id = req.params.id;
+  getPacientesPorDia(req, res, id);
+});
+
+//obtener talleres y asistentes
+app.get('/AppConnection/Estadisticas/TalleresYAsistentes/:id', async (req, res) => {
+  const id = req.params.id;
+  getTalleresYAsistentes(req, res);
 });
 /*
 //------------------------------------------------------------- Ruta de obtener tabla de usuarios y roles

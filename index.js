@@ -74,7 +74,7 @@ app.get('/', (req, res) => {
 //------------------------------------------------------------- Ruta de inicio de sesión de super usuarios
 app.post('/AppConnection/Login', async (req, res) => {
   const Data = req.body;
-  //console.log('data: ' + Data);
+  console.log('data: ' + Data);
   
   //Método para autenticar el super usuario
   Autentication(req, res, Data);

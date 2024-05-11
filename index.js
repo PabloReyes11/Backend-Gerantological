@@ -17,6 +17,15 @@ app.use((req, res, next) => {
   next();
 });
 
+const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+// other app.use() options ...
+app.use(expressCspHeader({ 
+    policies: { 
+        'default-src': [expressCspHeader.NONE], 
+        'img-src': [expressCspHeader.SELF], 
+    } 
+}));  
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

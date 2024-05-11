@@ -6,14 +6,8 @@ var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
 // Configuración del app
-// Configuración del CORS
-const corsOptions = {
-  origin: ['https://dif-app-life-up.vercel.app', 'http://192.168.1.96:3000'], // Agrega aquí las direcciones que deseas permitir
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Métodos HTTP permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'], // Cabeceras permitidas
-};
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

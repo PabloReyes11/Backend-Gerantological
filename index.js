@@ -5,13 +5,9 @@ const app = express();
 var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
-// Permitir solicitudes desde el origen de tu aplicación web en Vercel
-const corsOptions = {
-  origin: 'https://dif-app-life-up.vercel.app/', // Reemplaza esto con la URL de tu aplicación en Vercel
-  optionsSuccessStatus: 200 // Algunos navegadores antiguos (IE11, varios SmartTVs) interpretan mal las respuestas a CORS
-};
+// Configuración del app
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

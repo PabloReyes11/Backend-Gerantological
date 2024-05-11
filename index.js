@@ -7,7 +7,10 @@ const multer = require('multer'); // Middleware para manejar archivos en formula
 
 // Configuración del app
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://www.google.com' // Reemplaza con el origen específico que necesites permitir
+}));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());

@@ -342,5 +342,5 @@ const host = '0.0.0.0'; // Escucha en todas las interfaces
 //_----------------------------------------------------------------------------
 // Iniciar el servidor
 app.listen(3001, host, () => {
-  //console.log('Servidor Express en funcionamiento en el puerto 3001');
+  console.log('Servidor Express en funcionamiento en el puerto 3001');
 });

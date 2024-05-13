@@ -8,7 +8,7 @@ const multer = require('multer'); // Middleware para manejar archivos en formula
 
 
 app.use(cors({
-  origin: 'http://127.0.0.1:4000', // Origen permitido (URL de tu aplicación de React) http://20.102.109.114:3001/
+  origin: 'http://20.102.109.114:4000', // Origen permitido (URL de tu aplicación de React) http://20.102.109.114:3001/
   credentials: true, // Habilita el envío de cookies de origen a través de CORS
 }));
 

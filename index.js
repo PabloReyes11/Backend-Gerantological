@@ -5,19 +5,7 @@ const app = express();
 var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
-// Configuración del app  
-const config = {
-  application: {
-      cors: {
-          server: [
-              {
-                  origin: "localhost:4000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
-                  credentials: true
-              }
-          ]
-      }
-}
-}
+const config = require('./config');
 
 app.use(cors(
   config.application.cors.server

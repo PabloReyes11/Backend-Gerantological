@@ -5,7 +5,7 @@ const app = express();
 var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
-// Configuración del app
+// Configuración del app  
 
 app.use(cors());
 app.use((req, res, next) => {

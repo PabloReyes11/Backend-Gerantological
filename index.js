@@ -6,8 +6,22 @@ var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
 // Configuración del app  
+const config = {
+  application: {
+      cors: {
+          server: [
+              {
+                  origin: "localhost:4000", //servidor que deseas que consuma o (*) en caso que sea acceso libre
+                  credentials: true
+              }
+          ]
+      }
+}
+}
 
-app.use(cors());
+app.use(cors(
+  config.application.cors.server
+));
 app.use((req, res, next) => {
   res.setHeader('Content-Security-Policy', "default-src 'self' http://20.102.109.114:3001");
   next();

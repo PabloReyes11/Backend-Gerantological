@@ -7,13 +7,14 @@ const multer = require('multer'); // Middleware para manejar archivos en formula
 
 const config = require('./config');
 
-app.use(cors(
-  config.application.cors.server
-));
-app.use((req, res, next) => {
-  res.setHeader('Content-Security-Policy', "default-src 'self' http://20.102.109.114:3001");
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use( cors({ origin: true, credentials: true  }) );
 
 
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');

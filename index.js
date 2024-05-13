@@ -96,6 +96,9 @@ app.get('/', (req, res) => {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////----------------> END POINT´S SUPER USUARIOS
 //------------------------------------------------------------- Ruta de inicio de sesión de super usuarios
 app.post('/AppConnection/Login', async (req, res) => {
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin');
+  res.header('Access-Control-Allow-Origin', '*');
   const Data = req.body;
   console.log('data: ' + Data.Email);
   

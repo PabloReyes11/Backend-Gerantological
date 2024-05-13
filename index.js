@@ -5,16 +5,13 @@ const app = express();
 var bodyParser = require('body-parser');
 const multer = require('multer'); // Middleware para manejar archivos en formularios
 
-const config = require('./config');
 
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "20.102.109.114:4000");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors({
+  origin: 'http://20.102.109.114:4000', // Origen permitido (URL de tu aplicación de React) http://20.102.109.114:3001/
+  credentials: true, // Habilita el envío de cookies de origen a través de CORS
+}));
 
-app.use( cors({ origin: true, credentials: true  }) );
 
 
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
@@ -40,6 +37,8 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
+
+
 const destinoFoto = "uploads";
 
 const storage = multer.diskStorage({
